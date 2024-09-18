@@ -1,3 +1,4 @@
+import { provideHttpClient } from '@angular/common/http';
 import { ApplicationConfig } from '@angular/core';
 
 import { provideYConfig, YConfig } from 'angular-yandex-maps-v3';
@@ -7,5 +8,5 @@ const config: YConfig = {
 };
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideYConfig(config)],
+  providers: [provideYConfig(config), provideHttpClient()],
 };

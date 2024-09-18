@@ -1,0 +1,11 @@
+---
+meta:
+  environment: node
+  toolchain:
+    name: browser
+    version: 18
+build:
+  skip: false
+  artifacts:
+    dist/hack/*: /
+run: {}

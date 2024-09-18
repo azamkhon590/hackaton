@@ -1,21 +1,27 @@
 <header>
-    <nav>
-        <ul>
-            <li>
-                <a href="##"class="nav-item">Homa</a>
-            </li>
-            <li>
-                <a href="##"class="nav-item">Book</a>
-            </li>
-            <li>
-                <a href="##"class="nav-item">Photo</a>
-            </li>
-        </ul>
-    </nav>
+  <nav>
+    <ul>
+      <li>
+        <a href="##" class="nav-item">Homa</a>
+      </li>
+      <li>
+        <a href="##" class="nav-item">Book</a>
+      </li>
+      <li>
+        <a href="##" class="nav-item">Photo</a>
+      </li>
+    </ul>
+  </nav>
 </header>
 <div class="container-map">
   ?{{ parkMarkers.length }}
   {{ test }}
+  {{ data }}
+
+  <div class="form-group">
+    <label for="file">Загрузите фото</label>
+    <input type="file" id="file" (change)="handleFileInput($event)" />
+  </div>
   <div *ngFor="let p of parkMarkers">?{{ p.coordinates }}</div>
   <button (click)="click()">button</button>
   <y-map
