@@ -7,5 +7,5 @@ meta:
 build:
   skip: false
   artifacts:
-    dist/hack/*: /
+    '"dist/hack/*"': /
 run: {}
