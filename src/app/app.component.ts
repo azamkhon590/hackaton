@@ -1,4 +1,5 @@
 import { NgFor } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { Feature, YMap } from '@yandex/ymaps3-types';
@@ -34,8 +35,20 @@ export class AppComponent implements OnInit {
   selectedPark: Feature | null = null;
   location = LOCATION;
   test = 'a';
+  data: any = {};
+  fileToUpload: File | null = null;
 
-  ngOnInit(): void {}
+  constructor(private httpClient: HttpClient) {}
+
+  ngOnInit(): void {
+    this.httpClient
+      .get('http://localhost:1337/api/animals')
+      .subscribe((animals: any) => {
+        // process the configuration.
+        console.log(animals);
+        this.data = JSON.stringify(animals.data);
+      });
+  }
 
   async onMapReady(event: YReadyEvent<YMap>) {
     const { ymaps3, entity } = event;
@@ -59,6 +72,29 @@ export class AppComponent implements OnInit {
     });
     this.test = 'b';
     console.log(this.parkMarkers);
+  }
+
+  handleFileInput(event: any) {
+    this.fileToUpload = event.target.files.item(0);
+    console.log(this.fileToUpload);
+    if (!this.fileToUpload) {
+      return;
+    }
+    this.postFile(this.fileToUpload).subscribe(() => {
+      console.log('????');
+      return true;
+    });
+  }
+
+  postFile(fileToUpload: File) {
+    const endpoint = 'https://worthy-tick-noticeably.ngrok-free.app/classify';
+    const formData: FormData = new FormData();
+    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    return this.httpClient.post(endpoint, formData, {
+      headers: {
+        'ngrok-skip-browser-warning': 'true',
+      },
+    });
   }
 
   click() {
