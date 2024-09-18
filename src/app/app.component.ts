@@ -1,19 +1,71 @@
+import { NgFor } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { AngularYandexMapsModule } from 'angular8-yandex-maps';
+import { Feature, YMap } from '@yandex/ymaps3-types';
+import { YMapDefaultMarkerProps } from '@yandex/ymaps3-types/packages/markers';
+import {
+  YMapComponent,
+  YMapDefaultFeaturesLayerDirective,
+  YMapDefaultMarkerDirective,
+  YMapDefaultSchemeLayerDirective,
+  YReadyEvent,
+} from 'angular-yandex-maps-v3';
+import { LOCATION, PARKS_SEARCH_LIMIT, PARKS_SEARCH_TEXT } from '../constants';
+import { emptyPoint } from '../factories/empty';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, AngularYandexMapsModule],
+  imports: [
+    NgFor,
+    RouterOutlet,
+    YMapComponent,
+    YMapDefaultFeaturesLayerDirective,
+    YMapDefaultSchemeLayerDirective,
+    YMapDefaultMarkerDirective,
+  ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit {
   map: any;
-  ngOnInit(): void {
-
-    
-  }
   title = 'hack';
+  parkMarkers: YMapDefaultMarkerProps[] = [];
+  selectedPark: Feature | null = null;
+  location = LOCATION;
+  test = 'a';
+
+  ngOnInit(): void {}
+
+  async onMapReady(event: YReadyEvent<YMap>) {
+    const { ymaps3, entity } = event;
+    const parks = await ymaps3.search({
+      text: PARKS_SEARCH_TEXT,
+      limit: PARKS_SEARCH_LIMIT,
+      type: ['businesses'],
+    });
+    if (parks.length) {
+      this.location.center = parks[0].geometry?.coordinates || [0, 0];
+    }
+
+    this.parkMarkers = parks.map((park): YMapDefaultMarkerProps => {
+      const { geometry = emptyPoint(), properties } = park;
+      return {
+        coordinates: geometry.coordinates,
+        title: properties.name,
+        subtitle: properties.description,
+        onClick: () => this.handleSelectPark(park),
+      };
+    });
+    this.test = 'b';
+    console.log(this.parkMarkers);
+  }
+
+  click() {
+    this.test = 't';
+  }
+
+  handleSelectPark(park: Feature) {
+    this.selectedPark = park;
+  }
 }

@@ -1,6 +1,29 @@
 <div class="container">
-    <ya-map [center]="[55.751952, 37.600739]" [zoom]="12">
-        <ya-placemark [geometry]="[55.751952, 37.600739]" [properties]="{iconCaption: 'Moskow'}"></ya-placemark>
-    </ya-map>
+  ?{{ parkMarkers.length }}
+  {{ test }}
+  <div *ngFor="let p of parkMarkers">?{{ p.coordinates }}</div>
+  <button (click)="click()">button</button>
+  <y-map
+    [props]="{
+      location: {
+        center: [37.617644, 55.755819],
+        zoom: 9
+      }
+    }"
+    (ready)="onMapReady($event)"
+  >
+    <y-map-default-scheme-layer />
+    <y-map-default-features-layer />
+
+    <y-map-default-marker *ngFor="let park of parkMarkers" [props]="park">
+      <img
+        width="64"
+        height="64"
+        style="border-radius: 50%"
+        src="https://cdn.openart.ai/published/nI5hC8sFzqKnKbJtW1hA/ExVfxYNJ_E0Yh_256.webp"
+        alt="Bulldog"
+      />
+    </y-map-default-marker>
+  </y-map>
 </div>
 <router-outlet />
