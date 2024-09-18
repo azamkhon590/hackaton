@@ -1,9 +1,11 @@
+---
 meta:
   environment: node
   toolchain:
     name: browser
-    version: "20"
+    version: 20
 build:
   skip: false
   artifacts:
-    "dist/hack/*": /
+    dist/hack/*: /
+run: {}
