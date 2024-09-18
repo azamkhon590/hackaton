@@ -1,14 +1,9 @@
 meta:
   environment: node
   toolchain:
-    name: npm
+    name: browser
     version: "20"
 build:
   skip: false
   artifacts:
-    "*": /
-  additionalCommands: npm run build
-run:
-  command: npm run start
-  persistenceMount: /data
-  containerPort: "4200"
+    "dist/hack/*": /
