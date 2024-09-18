@@ -80,8 +80,8 @@ export class AppComponent implements OnInit {
     if (!this.fileToUpload) {
       return;
     }
-    this.postFile(this.fileToUpload).subscribe(() => {
-      console.log('????');
+    this.postFile(this.fileToUpload).subscribe((res) => {
+      console.log(res);
       return true;
     });
   }
@@ -89,7 +89,7 @@ export class AppComponent implements OnInit {
   postFile(fileToUpload: File) {
     const endpoint = 'https://worthy-tick-noticeably.ngrok-free.app/classify';
     const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
+    formData.append('file', fileToUpload, fileToUpload.name);
     return this.httpClient.post(endpoint, formData, {
       headers: {
         'ngrok-skip-browser-warning': 'true',
