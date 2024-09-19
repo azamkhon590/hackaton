@@ -71,11 +71,13 @@ export class AppComponent implements OnInit {
       };
     });
     this.test = 'b';
+
     for(let p of this.parkMarkers){
       this.placemark.coordinate[0] = p.coordinates[0];
       this.placemark.coordinate[1] = p.coordinates[1];
     };
     console.log(this.placemark);
+    console.log(this.parkMarkers);
   }
 
   click() {
