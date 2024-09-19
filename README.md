@@ -1,3 +1,7 @@
+# Запуск приложения
+
+Описание запуска приложения в [Docker](https://www.docker.com/) находится в [Красная книга (CMS)](https://github.com/lynx-r/gc-hackathon-redbook-cms)
+
 # Hack
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.1.3.
