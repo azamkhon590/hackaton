@@ -4,7 +4,7 @@
     margin: 25px;
 }
 nav{
-    background-color: black;
+    background-color: rgb(58, 58, 58);
 }
 ul{
     display: flex;
@@ -14,4 +14,21 @@ li{
 }
 .nav-item{
     color: white;
+}
+.logo{
+    position: relative;
+    height: 800px;
+    color: darkgreen;
+    font-size: 50px;
+    background-image: url(../assets/5d3b86456dc50.jpg);
+}
+h1{
+    position: absolute;
+    left:900px;
+    top: 150px;
+}
+h2{
+    position: absolute;
+    left: 500px;
+    top:400px;
 }

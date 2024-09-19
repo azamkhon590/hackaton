@@ -2,49 +2,48 @@
   <nav>
     <ul>
       <li>
-        <a href="##" class="nav-item">Homa</a>
+        <a routerLink="" class="nav-item">Homa</a>
       </li>
       <li>
-        <a href="##" class="nav-item">Book</a>
+        <a routerLink="/animals" class="nav-item">Animals</a>
       </li>
       <li>
-        <a href="##" class="nav-item">Photo</a>
+        <a routerLink="/photo" class="nav-item">Photo</a>
       </li>
     </ul>
   </nav>
 </header>
-<div class="container-map">
-  ?{{ parkMarkers.length }}
-  {{ test }}
-  {{ data }}
-
-  <div class="form-group">
-    <label for="file">Загрузите фото</label>
-    <input type="file" id="file" (change)="handleFileInput($event)" />
+<section>
+  <div class="logo">
+      <h1>ЭкоХак</h1>
+      <br>
+      <h2>Зеленый код Москвы</h2>
   </div>
-  <div *ngFor="let p of parkMarkers">?{{ p.coordinates }}</div>
-  <button (click)="click()">button</button>
-  <y-map
-    [props]="{
-      location: {
-        center: [37.617644, 55.755819],
-        zoom: 9
-      }
-    }"
-    (ready)="onMapReady($event)"
-  >
-    <y-map-default-scheme-layer />
-    <y-map-default-features-layer />
-
-    <y-map-default-marker *ngFor="let park of parkMarkers" [props]="park">
-      <img
-        width="64"
-        height="64"
-        style="border-radius: 50%"
-        src="https://cdn.openart.ai/published/nI5hC8sFzqKnKbJtW1hA/ExVfxYNJ_E0Yh_256.webp"
-        alt="Bulldog"
-      />
-    </y-map-default-marker>
-  </y-map>
-</div>
+</section>
 <router-outlet />
+<section>
+  <div class="container-map">
+      <!-- {{ parkMarkers.length }}
+      {{ test }}
+      {{ data }}
+
+
+      <div *ngFor="let p of parkMarkers">{{ p.coordinates }}</div> -->
+      <!-- <button (click)="click()">button</button> -->
+      <y-map [props]="{
+          location: {
+            center: [37.617644, 55.755819],
+            zoom: 9
+          }
+        }" (ready)="onMapReady($event)">
+          <y-map-default-scheme-layer />
+          <y-map-default-features-layer />
+
+          <y-map-default-marker *ngFor="let park of parkMarkers" [props]="park">
+              <img width="64" height="64" style="border-radius: 50%"
+                  src="https://cdn.openart.ai/published/nI5hC8sFzqKnKbJtW1hA/ExVfxYNJ_E0Yh_256.webp" alt="Bulldog" />
+          </y-map-default-marker>
+      </y-map>
+  </div>
+</section>
+

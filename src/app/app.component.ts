@@ -1,7 +1,6 @@
 import { NgFor } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { RouterLink, RouterModule, RouterOutlet } from '@angular/router';
 import { Feature, YMap } from '@yandex/ymaps3-types';
 import { YMapDefaultMarkerProps } from '@yandex/ymaps3-types/packages/markers';
 import {
@@ -20,6 +19,8 @@ import { emptyPoint } from '../factories/empty';
   imports: [
     NgFor,
     RouterOutlet,
+    RouterLink,
+    RouterModule,
     YMapComponent,
     YMapDefaultFeaturesLayerDirective,
     YMapDefaultSchemeLayerDirective,
@@ -37,19 +38,18 @@ export class AppComponent implements OnInit {
   test = 'a';
   data: any = {};
   fileToUpload: File | null = null;
+  placemark = {
+    coordinate: {
+      0: 0,
+      1: 0
+    }
+  };
 
-  constructor(private httpClient: HttpClient) {}
+  constructor() {}
 
   ngOnInit(): void {
-    this.httpClient
-      .get('http://localhost:1337/api/animals')
-      .subscribe((animals: any) => {
-        // process the configuration.
-        console.log(animals);
-        this.data = JSON.stringify(animals.data);
-      });
-  }
 
+  }
   async onMapReady(event: YReadyEvent<YMap>) {
     const { ymaps3, entity } = event;
     const parks = await ymaps3.search({
@@ -71,30 +71,11 @@ export class AppComponent implements OnInit {
       };
     });
     this.test = 'b';
-    console.log(this.parkMarkers);
-  }
-
-  handleFileInput(event: any) {
-    this.fileToUpload = event.target.files.item(0);
-    console.log(this.fileToUpload);
-    if (!this.fileToUpload) {
-      return;
-    }
-    this.postFile(this.fileToUpload).subscribe(() => {
-      console.log('????');
-      return true;
-    });
-  }
-
-  postFile(fileToUpload: File) {
-    const endpoint = 'https://worthy-tick-noticeably.ngrok-free.app/classify';
-    const formData: FormData = new FormData();
-    formData.append('fileKey', fileToUpload, fileToUpload.name);
-    return this.httpClient.post(endpoint, formData, {
-      headers: {
-        'ngrok-skip-browser-warning': 'true',
-      },
-    });
+    for(let p of this.parkMarkers){
+      this.placemark.coordinate[0] = p.coordinates[0];
+      this.placemark.coordinate[1] = p.coordinates[1];
+    };
+    console.log(this.placemark);
   }
 
   click() {
@@ -104,4 +85,5 @@ export class AppComponent implements OnInit {
   handleSelectPark(park: Feature) {
     this.selectedPark = park;
   }
+
 }
